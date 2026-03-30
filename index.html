@@ -1,178 +1,371 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SAGRE-NEXT — COGERH</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
-<style>
-:root{--navy:#020e1c;--deep:#061825;--blue:#0a2f4e;--mid:#0d3d63;--aqua:#29b6f6;--white:#f0f8ff;--amber:#f59e0b;--amber2:#fbbf24;--text:#cde8f8;--muted:#6a9bbf;}
-*{margin:0;padding:0;box-sizing:border-box;}
-html{scroll-behavior:smooth;}
-body{font-family:'Inter',sans-serif;background:var(--navy);color:var(--text);overflow-x:hidden;min-height:100vh;display:flex;flex-direction:column;}
-#wc{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;opacity:.18;pointer-events:none;}
-
-/* NAV */
-nav{position:fixed;top:0;width:100%;z-index:200;background:rgba(2,14,28,.88);backdrop-filter:blur(20px);border-bottom:1px solid rgba(41,182,246,.12);padding:0 48px;height:58px;display:flex;align-items:center;justify-content:space-between;}
-.nl{font-family:'Playfair Display',serif;font-size:19px;color:var(--aqua);letter-spacing:.03em;}
-.nb{font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--amber);border:1px solid rgba(245,158,11,.35);padding:3px 10px;border-radius:20px;}
-
-/* MAIN */
-main{position:relative;z-index:1;flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:100px 48px 80px;text-align:center;}
-
-/* RINGS */
-.rings{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none;z-index:0;}
-.ring{position:absolute;border-radius:50%;border:1px solid rgba(41,182,246,.07);transform:translate(-50%,-50%);animation:pr 7s ease-in-out infinite;}
-.ring:nth-child(1){width:280px;height:280px;}
-.ring:nth-child(2){width:480px;height:480px;animation-delay:1.4s;}
-.ring:nth-child(3){width:680px;height:680px;animation-delay:2.8s;}
-.ring:nth-child(4){width:880px;height:880px;animation-delay:4.2s;}
-@keyframes pr{0%,100%{opacity:.08;transform:translate(-50%,-50%) scale(1);}50%{opacity:.18;transform:translate(-50%,-50%) scale(1.03);}}
-
-/* HERO TEXT */
-.hero-wrap{position:relative;z-index:1;}
-.badge{display:inline-flex;align-items:center;gap:8px;background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.3);color:var(--amber2);font-size:9px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;padding:5px 16px;border-radius:30px;margin-bottom:28px;animation:sd .8s ease both;}
-.badge::before{content:'';width:5px;height:5px;background:var(--amber2);border-radius:50%;animation:bk 2s infinite;}
-@keyframes bk{0%,100%{opacity:1}50%{opacity:.2}}
-@keyframes sd{from{opacity:0;transform:translateY(-16px)}to{opacity:1;transform:translateY(0)}}
-
-h1{font-family:'Playfair Display',serif;font-size:clamp(56px,9vw,108px);font-weight:900;line-height:.88;letter-spacing:-.03em;color:var(--white);animation:su .9s .1s ease both;}
-h1 em{display:block;font-size:.42em;color:var(--aqua);font-style:italic;letter-spacing:.02em;margin-top:14px;}
-@keyframes su{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
-
-.subtitle{max-width:480px;font-size:15px;font-weight:300;color:var(--muted);line-height:1.8;margin:24px auto 56px;animation:su .9s .22s ease both;}
-
-/* CARDS */
-.cards{display:grid;grid-template-columns:1fr 1fr;gap:24px;max-width:760px;width:100%;margin:0 auto;animation:su .9s .35s ease both;}
-
-@media(max-width:600px){.cards{grid-template-columns:1fr;}}
-
-.card{background:rgba(13,61,99,.4);border:1px solid rgba(41,182,246,.12);border-radius:20px;padding:36px 32px 32px;text-align:left;text-decoration:none;display:block;transition:all .4s cubic-bezier(.25,.8,.25,1);position:relative;overflow:hidden;}
-.card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,rgba(41,182,246,.4),transparent);opacity:0;transition:opacity .4s;}
-.card:hover{border-color:rgba(41,182,246,.3);transform:translateY(-6px);background:rgba(13,61,99,.6);}
-.card:hover::before{opacity:1;}
-.card.amber-card{border-color:rgba(245,158,11,.15);}
-.card.amber-card::before{background:linear-gradient(90deg,transparent,rgba(245,158,11,.4),transparent);}
-.card.amber-card:hover{border-color:rgba(245,158,11,.35);}
-
-.card-icon{width:48px;height:48px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px;margin-bottom:20px;}
-.card-icon.blue{background:rgba(41,182,246,.1);border:1px solid rgba(41,182,246,.2);}
-.card-icon.amber{background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.2);}
-
-.card-tag{font-size:9px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;margin-bottom:10px;}
-.card-tag.blue{color:var(--aqua);}
-.card-tag.amber{color:var(--amber2);}
-
-.card-title{font-family:'Playfair Display',serif;font-size:22px;font-weight:700;color:var(--white);line-height:1.2;margin-bottom:12px;}
-.card-desc{font-size:13px;font-weight:300;color:var(--muted);line-height:1.65;margin-bottom:24px;}
-
-.card-cta{display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:600;letter-spacing:.06em;color:var(--aqua);transition:gap .3s;}
-.card.amber-card .card-cta{color:var(--amber2);}
-.card:hover .card-cta{gap:14px;}
-.card-cta svg{width:14px;height:14px;}
-
-/* DIVIDER */
-.divider{width:1px;height:60px;background:linear-gradient(180deg,transparent,rgba(41,182,246,.3),transparent);margin:0 auto 48px;}
-
-/* META */
-.meta-row{position:relative;z-index:1;display:flex;align-items:center;justify-content:center;gap:24px;margin-top:52px;animation:su .9s .5s ease both;}
-.meta-item{font-size:11px;letter-spacing:.06em;color:rgba(106,155,191,.4);display:flex;align-items:center;gap:7px;}
-.meta-dot{width:3px;height:3px;border-radius:50%;background:rgba(106,155,191,.3);}
-
-/* FOOTER */
-footer{position:relative;z-index:1;border-top:1px solid rgba(41,182,246,.08);padding:20px 48px;text-align:center;font-size:11px;color:rgba(106,155,191,.4);letter-spacing:.06em;}
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SAGRE-NEXT</title>
+  <style>
+    :root{
+      --bg:#07111f;
+      --bg-2:#0b1b31;
+      --panel:#0e223d;
+      --panel-2:#102946;
+      --line:rgba(255,255,255,.08);
+      --text:#eef6ff;
+      --muted:#9db2c9;
+      --blue:#5da9ff;
+      --blue-2:#90c4ff;
+      --ok:#33d17a;
+      --warn:#ffb84d;
+      --danger:#ff6b6b;
+      --shadow:0 18px 40px rgba(0,0,0,.28);
+      --radius:18px;
+    }
+    *{box-sizing:border-box}
+    html,body{margin:0;padding:0;background:linear-gradient(180deg,var(--bg),#081524 45%, #091a2f 100%);color:var(--text);font-family:Inter,Segoe UI,Arial,sans-serif}
+    body{min-height:100vh}
+    .app{display:grid;grid-template-columns:280px 1fr;min-height:100vh}
+    .sidebar{background:linear-gradient(180deg,#06101d,#081625 60%, #0b1c31);border-right:1px solid var(--line);padding:22px 16px;position:sticky;top:0;height:100vh}
+    .brand{padding:16px;border:1px solid var(--line);border-radius:20px;background:rgba(255,255,255,.02);box-shadow:var(--shadow)}
+    .brand h1{margin:0;font-size:26px;letter-spacing:.02em}
+    .brand p{margin:8px 0 0;color:var(--muted);font-size:13px;line-height:1.5}
+    .menu{margin-top:22px;display:grid;gap:10px}
+    .menu button{all:unset;cursor:pointer;padding:14px 16px;border-radius:14px;color:var(--text);border:1px solid transparent;transition:.25s;background:transparent}
+    .menu button:hover,.menu button.active{background:linear-gradient(180deg,rgba(93,169,255,.16),rgba(93,169,255,.07));border-color:rgba(93,169,255,.35)}
+    .menu small{display:block;color:var(--muted);margin-top:4px;font-size:11px}
+    .side-footer{position:absolute;left:16px;right:16px;bottom:20px;padding:14px;border:1px solid var(--line);border-radius:16px;background:rgba(255,255,255,.02)}
+    .side-footer div{font-size:12px;color:var(--muted);line-height:1.55}
+    .main{padding:22px}
+    .topbar{display:flex;justify-content:space-between;gap:16px;align-items:center;margin-bottom:18px}
+    .title h2{margin:0;font-size:30px}
+    .title p{margin:6px 0 0;color:var(--muted)}
+    .toolbar{display:flex;gap:10px;flex-wrap:wrap}
+    .btn{border:none;cursor:pointer;border-radius:14px;padding:12px 14px;background:linear-gradient(180deg,#16355d,#102947);color:var(--text);border:1px solid rgba(255,255,255,.08)}
+    .btn.primary{background:linear-gradient(180deg,#2d6fbe,#1b4f8b);border-color:rgba(144,196,255,.3)}
+    .grid{display:grid;gap:16px}
+    .grid.kpis{grid-template-columns:repeat(4,minmax(0,1fr))}
+    .card{background:linear-gradient(180deg,rgba(16,41,70,.95),rgba(10,26,44,.95));border:1px solid var(--line);border-radius:var(--radius);padding:18px;box-shadow:var(--shadow)}
+    .card h3{margin:0 0 10px;font-size:16px}
+    .muted{color:var(--muted)}
+    .kpi-value{font-size:34px;font-weight:800;letter-spacing:-.03em}
+    .kpi-row{display:flex;justify-content:space-between;align-items:end;gap:10px}
+    .tag{display:inline-flex;align-items:center;gap:8px;padding:7px 10px;border-radius:999px;font-size:12px;border:1px solid var(--line);background:rgba(255,255,255,.03)}
+    .dot{width:9px;height:9px;border-radius:50%}
+    .ok{background:var(--ok)} .warn{background:var(--warn)} .danger{background:var(--danger)}
+    .layout-2{display:grid;grid-template-columns:1.6fr 1fr;gap:16px}
+    .chart{height:220px;border-radius:16px;background:
+      linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,.01)),
+      repeating-linear-gradient(to right, transparent 0 58px, rgba(255,255,255,.05) 58px 59px),
+      repeating-linear-gradient(to bottom, transparent 0 43px, rgba(255,255,255,.04) 43px 44px);
+      position:relative;overflow:hidden;border:1px solid rgba(255,255,255,.05)}
+    svg{display:block;width:100%;height:100%}
+    .table{width:100%;border-collapse:collapse}
+    .table th,.table td{padding:12px 10px;border-bottom:1px solid rgba(255,255,255,.06);text-align:left;font-size:14px}
+    .table th{color:var(--blue-2);font-weight:700}
+    .alert-list{display:grid;gap:10px}
+    .alert{padding:13px 14px;border-radius:14px;border:1px solid var(--line);background:rgba(255,255,255,.02)}
+    .alert strong{display:block;margin-bottom:4px}
+    .screen{display:none}
+    .screen.active{display:block}
+    .sim-grid,.res-grid,.pred-grid,.gov-grid,.audit-grid{display:grid;gap:16px;grid-template-columns:1.1fr .9fr}
+    .form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+    label{font-size:13px;color:var(--muted);display:block;margin-bottom:6px}
+    input,select,textarea{width:100%;background:#09172a;color:var(--text);border:1px solid var(--line);border-radius:12px;padding:12px}
+    textarea{min-height:110px;resize:vertical}
+    .pill-row{display:flex;gap:8px;flex-wrap:wrap}
+    .pill{padding:8px 10px;border:1px solid var(--line);border-radius:999px;background:rgba(255,255,255,.03);font-size:12px}
+    .mini-kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+    .mini{padding:14px;border:1px solid var(--line);border-radius:14px;background:rgba(255,255,255,.02)}
+    .map{position:relative;height:420px;border-radius:16px;border:1px solid var(--line);background:radial-gradient(circle at 50% 20%, rgba(93,169,255,.14), transparent 30%),linear-gradient(180deg,#0b1930,#081321);overflow:hidden}
+    .node{position:absolute;padding:10px 12px;border-radius:12px;background:linear-gradient(180deg,#16355d,#102947);border:1px solid rgba(144,196,255,.25);font-size:13px;box-shadow:var(--shadow)}
+    .line{position:absolute;height:3px;background:linear-gradient(90deg,rgba(93,169,255,.2),rgba(93,169,255,.8),rgba(93,169,255,.2));transform-origin:left center;border-radius:10px}
+    .footer-note{margin-top:16px;color:var(--muted);font-size:12px}
+    @media (max-width:1100px){
+      .grid.kpis,.mini-kpis,.form-grid,.layout-2,.sim-grid,.res-grid,.pred-grid,.gov-grid,.audit-grid{grid-template-columns:1fr}
+      .app{grid-template-columns:1fr}
+      .sidebar{position:relative;height:auto}
+      .side-footer{position:static;margin-top:16px}
+    }
+  </style>
 </head>
 <body>
-<canvas id="wc"></canvas>
-
-<nav>
-  <div class="nl">SAGRE-NEXT</div>
-  <div class="nb">COGERH · GEOPE · Mar/2026</div>
-</nav>
-
-<main>
-  <div class="rings">
-    <div class="ring"></div>
-    <div class="ring"></div>
-    <div class="ring"></div>
-    <div class="ring"></div>
-  </div>
-
-  <div class="hero-wrap">
-    <div class="badge">Gerência de Operações — GEOPE · COGERH</div>
-    <h1>SAGRE-NEXT<em>Sistema de Gestão dos Reservatórios</em></h1>
-    <p class="subtitle">Modernização, documentação e democratização do instrumento de simulação operacional de reservatórios da COGERH.</p>
-
-    <div class="cards">
-      <!-- CARD 1 — RESUMO EXECUTIVO -->
-      <a href="resumo_executivo.html" class="card amber-card">
-        <div class="card-icon amber">📄</div>
-        <div class="card-tag amber">Nota Executiva</div>
-        <div class="card-title">Resumo Executivo</div>
-        <div class="card-desc">Visão institucional do projeto — o problema, a oportunidade, o diferencial climático e o que já foi feito. Para apresentação à liderança.</div>
-        <div class="card-cta">
-          Acessar documento
-          <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M1 7h12M7 1l6 6-6 6"/></svg>
-        </div>
-      </a>
-
-      <!-- CARD 2 — PLANO SDLC -->
-      <a href="plano_sdlc.html" class="card">
-        <div class="card-icon blue">🏗️</div>
-        <div class="card-tag blue">Plano Técnico</div>
-        <div class="card-title">Plano SDLC Completo</div>
-        <div class="card-desc">Ciclo de Vida de Desenvolvimento completo — 6 fases, requisitos, arquitetura, sprints, testes, riscos e referências técnicas internacionais.</div>
-        <div class="card-cta">
-          Acessar documento
-          <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M1 7h12M7 1l6 6-6 6"/></svg>
-        </div>
-      </a>
+<div class="app">
+  <aside class="sidebar">
+    <div class="brand">
+      <h1>SAGRE-NEXT</h1>
+      <p>Plataforma de simulação, operação, auditoria e previsão para sistemas integrados de reservatórios.</p>
     </div>
 
-    <div class="meta-row">
-      <div class="meta-item">Versão 1.1</div>
-      <div class="meta-dot"></div>
-      <div class="meta-item">Março 2026</div>
-      <div class="meta-dot"></div>
-      <div class="meta-item">Uso Interno</div>
-      <div class="meta-dot"></div>
-      <div class="meta-item">GEOPE / COGERH</div>
+    <div class="menu">
+      <button class="active" data-screen="dashboard">Dashboard<small>Visão executiva do sistema</small></button>
+      <button data-screen="simulacao">Simulação<small>Cenários, regras e horizonte</small></button>
+      <button data-screen="reservatorios">Reservatórios<small>Volumes, cotas e criticidade</small></button>
+      <button data-screen="mapa">Mapa lógico<small>Rede integrada e fluxos</small></button>
+      <button data-screen="preditivo">Módulo preditivo<small>Risco, ensemble e clima</small></button>
+      <button data-screen="auditoria">Auditoria<small>Logs, trilhas e rastreabilidade</small></button>
+      <button data-screen="governanca">Governança<small>Perfis, permissões e aprovação</small></button>
     </div>
-  </div>
-</main>
 
-<footer>
-  COGERH — Companhia de Gestão dos Recursos Hídricos do Ceará &nbsp;·&nbsp; Gerência de Operações / GEOPE &nbsp;·&nbsp; Documento para discussão interna
-</footer>
+    <div class="side-footer">
+      <div><strong style="color:var(--text)">Status</strong><br>Ambiente de demonstração<br>Versão conceitual de frontend enterprise</div>
+    </div>
+  </aside>
+
+  <main class="main">
+    <section id="dashboard" class="screen active">
+      <div class="topbar">
+        <div class="title">
+          <h2>Painel Executivo</h2>
+          <p>Panorama operacional consolidado do sistema integrado e dos cenários mais críticos.</p>
+        </div>
+        <div class="toolbar">
+          <button class="btn">Exportar relatório</button>
+          <button class="btn">Atualizar dados</button>
+          <button class="btn primary">Nova simulação</button>
+        </div>
+      </div>
+
+      <div class="grid kpis">
+        <div class="card"><div class="muted">Volume equivalente</div><div class="kpi-row"><div class="kpi-value">62,4%</div><span class="tag"><span class="dot ok"></span>Estável</span></div></div>
+        <div class="card"><div class="muted">Reservatórios críticos</div><div class="kpi-row"><div class="kpi-value">03</div><span class="tag"><span class="dot warn"></span>Atenção</span></div></div>
+        <div class="card"><div class="muted">Transferência diária</div><div class="kpi-row"><div class="kpi-value">8,7 m³/s</div><span class="tag"><span class="dot ok"></span>Conforme regra</span></div></div>
+        <div class="card"><div class="muted">Risco em 90 dias</div><div class="kpi-row"><div class="kpi-value">18%</div><span class="tag"><span class="dot warn"></span>Moderado</span></div></div>
+      </div>
+
+      <div class="layout-2" style="margin-top:16px">
+        <div class="card">
+          <h3>Evolução do volume equivalente</h3>
+          <div class="chart">
+            <svg viewBox="0 0 800 220" preserveAspectRatio="none">
+              <polyline fill="none" stroke="rgba(144,196,255,.95)" stroke-width="4" points="0,120 70,110 140,118 210,104 280,98 350,103 420,90 490,86 560,80 630,78 700,72 800,68"/>
+              <polyline fill="rgba(93,169,255,.14)" stroke="none" points="0,220 0,120 70,110 140,118 210,104 280,98 350,103 420,90 490,86 560,80 630,78 700,72 800,68 800,220"/>
+            </svg>
+          </div>
+          <div class="footer-note">Tendência simulada com envelope favorável nas últimas 6 janelas.</div>
+        </div>
+        <div class="card">
+          <h3>Alertas operacionais</h3>
+          <div class="alert-list">
+            <div class="alert"><strong>Pacoti em aproximação de faixa de atenção</strong><span class="muted">Projeção indica cruzamento de limiar em 21 dias no cenário conservador.</span></div>
+            <div class="alert"><strong>Evaporação acima da média histórica</strong><span class="muted">Janela quinzenal 11,2% acima do referencial climatológico.</span></div>
+            <div class="alert"><strong>Transferência otimizada recomendada</strong><span class="muted">Motor preditivo sugere ajuste incremental entre Gavião e sistema suplementar.</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="layout-2" style="margin-top:16px">
+        <div class="card">
+          <h3>Reservatórios prioritários</h3>
+          <table class="table">
+            <thead><tr><th>Reservatório</th><th>Volume</th><th>Cota</th><th>Status</th></tr></thead>
+            <tbody>
+              <tr><td>Gavião</td><td>74,1%</td><td>31,8 m</td><td>Operação normal</td></tr>
+              <tr><td>Pacajus</td><td>56,3%</td><td>24,2 m</td><td>Atenção</td></tr>
+              <tr><td>Pacoti</td><td>41,7%</td><td>18,9 m</td><td>Criticidade moderada</td></tr>
+              <tr><td>Riachão</td><td>69,8%</td><td>27,1 m</td><td>Operação normal</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="card">
+          <h3>Resumo do modelo atual</h3>
+          <div class="pill-row">
+            <span class="pill">Balanço hídrico</span>
+            <span class="pill">Curva CAV</span>
+            <span class="pill">Regras condicionais</span>
+            <span class="pill">Ensemble climático</span>
+            <span class="pill">Auditoria total</span>
+            <span class="pill">Perfis de acesso</span>
+          </div>
+          <p class="muted" style="line-height:1.7;margin-top:14px">Este conceito funde o núcleo do SAGRE tradicional com camadas novas: previsões, governança, rastreabilidade, mapas operacionais e apoio à decisão.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="simulacao" class="screen">
+      <div class="topbar">
+        <div class="title"><h2>Simulação Operacional</h2><p>Construtor de cenários com parâmetros, restrições e política de operação.</p></div>
+        <div class="toolbar"><button class="btn">Salvar cenário</button><button class="btn primary" id="runSim">Executar simulação</button></div>
+      </div>
+      <div class="sim-grid">
+        <div class="card">
+          <h3>Parâmetros do cenário</h3>
+          <div class="form-grid">
+            <div><label>Sistema</label><select><option>RMF Integrado</option><option>Gavião + Pacoti + Riachão</option><option>Personalizado</option></select></div>
+            <div><label>Horizonte</label><select><option>90 dias</option><option>180 dias</option><option>365 dias</option></select></div>
+            <div><label>Passo temporal</label><select><option>5 dias</option><option>1 dia</option><option>10 dias</option></select></div>
+            <div><label>Cenário de aporte</label><select><option>Histórico mediano</option><option>Seco conservador</option><option>Úmido favorável</option></select></div>
+            <div><label>Evaporação</label><select><option>Série histórica</option><option>Projeção sazonal</option></select></div>
+            <div><label>Política operacional</label><select><option>Atual</option><option>Restritiva</option><option>Otimizada por risco</option></select></div>
+          </div>
+          <div style="margin-top:12px">
+            <label>Observações técnicas</label>
+            <textarea>Executar análise com proteção reforçada para reservatórios abaixo de 45% e penalização adicional para perda evaporativa no quadrimestre seco.</textarea>
+          </div>
+        </div>
+        <div class="card">
+          <h3>Resultado sintético</h3>
+          <div class="mini-kpis">
+            <div class="mini"><div class="muted">Volume mínimo</div><div class="kpi-value" style="font-size:24px">54,2%</div></div>
+            <div class="mini"><div class="muted">Data crítica</div><div class="kpi-value" style="font-size:24px">D+71</div></div>
+            <div class="mini"><div class="muted">Confiabilidade</div><div class="kpi-value" style="font-size:24px">88%</div></div>
+          </div>
+          <div class="chart" style="margin-top:14px">
+            <svg viewBox="0 0 800 220" preserveAspectRatio="none">
+              <polyline fill="none" stroke="rgba(255,184,77,.95)" stroke-width="4" points="0,85 100,94 200,110 300,128 400,137 500,146 600,152 700,160 800,171"/>
+              <polyline fill="none" stroke="rgba(93,169,255,.85)" stroke-width="4" points="0,60 100,67 200,76 300,88 400,95 500,101 600,108 700,112 800,120"/>
+            </svg>
+          </div>
+          <div class="footer-note">Curvas simuladas: cenário conservador versus política otimizada por risco.</div>
+        </div>
+      </div>
+    </section>
+
+    <section id="reservatorios" class="screen">
+      <div class="topbar">
+        <div class="title"><h2>Reservatórios</h2><p>Monitoramento individual com foco em volume, cota, risco e regra aplicada.</p></div>
+      </div>
+      <div class="res-grid">
+        <div class="card">
+          <h3>Tabela operacional</h3>
+          <table class="table">
+            <thead><tr><th>Nome</th><th>Volume</th><th>Cota</th><th>Perda evap.</th><th>Regra ativa</th></tr></thead>
+            <tbody>
+              <tr><td>Gavião</td><td>74,1%</td><td>31,8 m</td><td>0,42 hm³</td><td>Transferência base</td></tr>
+              <tr><td>Pacajus</td><td>56,3%</td><td>24,2 m</td><td>0,37 hm³</td><td>Restrição parcial</td></tr>
+              <tr><td>Pacoti</td><td>41,7%</td><td>18,9 m</td><td>0,31 hm³</td><td>Proteção de volume</td></tr>
+              <tr><td>Riachão</td><td>69,8%</td><td>27,1 m</td><td>0,29 hm³</td><td>Operação normal</td></tr>
+              <tr><td>Sítios Novos</td><td>47,5%</td><td>20,4 m</td><td>0,26 hm³</td><td>Atenção</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="card">
+          <h3>Painel do reservatório selecionado</h3>
+          <div class="mini-kpis">
+            <div class="mini"><div class="muted">Reservatório</div><div class="kpi-value" style="font-size:22px">Pacoti</div></div>
+            <div class="mini"><div class="muted">Índice de risco</div><div class="kpi-value" style="font-size:22px">0,63</div></div>
+            <div class="mini"><div class="muted">Faixa</div><div class="kpi-value" style="font-size:22px">Atenção</div></div>
+          </div>
+          <p class="muted" style="line-height:1.7;margin-top:14px">A lógica proposta permite abrir histórico, curva CAV, eventos de mudança de regime, simulações associadas e justificativas de decisão.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="mapa" class="screen">
+      <div class="topbar">
+        <div class="title"><h2>Mapa Lógico do Sistema</h2><p>Visão esquemática das conexões, fluxos e nós estratégicos.</p></div>
+      </div>
+      <div class="card">
+        <div class="map">
+          <div class="node" style="left:60px;top:60px">Gavião<br><span class="muted">74,1%</span></div>
+          <div class="node" style="left:300px;top:120px">Pacajus<br><span class="muted">56,3%</span></div>
+          <div class="node" style="left:540px;top:80px">Pacoti<br><span class="muted">41,7%</span></div>
+          <div class="node" style="left:520px;top:260px">Riachão<br><span class="muted">69,8%</span></div>
+          <div class="node" style="left:760px;top:170px">Reservatório Equivalente<br><span class="muted">62,4%</span></div>
+          <div class="line" style="left:145px;top:106px;width:190px;transform:rotate(16deg)"></div>
+          <div class="line" style="left:390px;top:142px;width:178px;transform:rotate(-13deg)"></div>
+          <div class="line" style="left:620px;top:132px;width:165px;transform:rotate(22deg)"></div>
+          <div class="line" style="left:610px;top:275px;width:170px;transform:rotate(-24deg)"></div>
+        </div>
+        <div class="footer-note">No produto real, esta área pode evoluir para mapa georreferenciado, animação de fluxo e leitura de telemetria em tempo quase real.</div>
+      </div>
+    </section>
+
+    <section id="preditivo" class="screen">
+      <div class="topbar">
+        <div class="title"><h2>Módulo Preditivo</h2><p>Camada nova para previsão, risco e recomendação explicável.</p></div></div>
+      <div class="pred-grid">
+        <div class="card">
+          <h3>Ensemble de cenários</h3>
+          <div class="chart">
+            <svg viewBox="0 0 800 220" preserveAspectRatio="none">
+              <polyline fill="none" stroke="rgba(255,107,107,.7)" stroke-width="2" points="0,130 100,134 200,142 300,151 400,160 500,170 600,180 700,188 800,196"/>
+              <polyline fill="none" stroke="rgba(255,184,77,.75)" stroke-width="2" points="0,110 100,115 200,123 300,132 400,141 500,147 600,155 700,162 800,168"/>
+              <polyline fill="none" stroke="rgba(93,169,255,.9)" stroke-width="4" points="0,80 100,82 200,90 300,96 400,102 500,108 600,112 700,116 800,121"/>
+            </svg>
+          </div>
+          <div class="footer-note">Bandas representando cenários seco, mediano e otimizado.</div>
+        </div>
+        <div class="card">
+          <h3>Recomendação do motor</h3>
+          <div class="alert-list">
+            <div class="alert"><strong>Ajustar transferência incremental em +0,4 m³/s</strong><span class="muted">Objetivo: reduzir probabilidade de cruzamento crítico do Pacoti no cenário seco.</span></div>
+            <div class="alert"><strong>Priorizar regime conservador por 3 janelas</strong><span class="muted">Justificativa: perda evaporativa e aporte abaixo da mediana.</span></div>
+            <div class="alert"><strong>Confiabilidade explicativa</strong><span class="muted">Principais fatores: volume inicial, evaporação projetada, restrição operacional e sensibilidade do sistema.</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="auditoria" class="screen">
+      <div class="topbar"><div class="title"><h2>Auditoria e Rastreabilidade</h2><p>Histórico completo das execuções, parâmetros e decisões.</p></div></div>
+      <div class="audit-grid">
+        <div class="card">
+          <h3>Execuções recentes</h3>
+          <table class="table">
+            <thead><tr><th>ID</th><th>Usuário</th><th>Data</th><th>Modelo</th><th>Status</th></tr></thead>
+            <tbody>
+              <tr><td>SIM-10482</td><td>analista.geope</td><td>30/03/2026 00:41</td><td>RMF 90d</td><td>Concluído</td></tr>
+              <tr><td>SIM-10481</td><td>gestor.sistema</td><td>29/03/2026 22:13</td><td>Seco conservador</td><td>Concluído</td></tr>
+              <tr><td>SIM-10479</td><td>engenharia.op</td><td>29/03/2026 19:02</td><td>Otimizado por risco</td><td>Aprovado</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="card">
+          <h3>Trilha de decisão</h3>
+          <div class="alert-list">
+            <div class="alert"><strong>Parâmetros assinados</strong><span class="muted">Hash de configuração, usuário responsável e carimbo temporal.</span></div>
+            <div class="alert"><strong>Comparação com cenário-base</strong><span class="muted">Desvio consolidado: -3,8% de risco crítico e +1,2% de preservação volumétrica.</span></div>
+            <div class="alert"><strong>Justificativa registrada</strong><span class="muted">Cada mudança de regime pode ser vinculada a parecer técnico e aprovação.</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="governanca" class="screen">
+      <div class="topbar"><div class="title"><h2>Governança</h2><p>Perfis, permissões, aprovação de cenários e segregação funcional.</p></div></div>
+      <div class="gov-grid">
+        <div class="card">
+          <h3>Perfis institucionais</h3>
+          <table class="table">
+            <thead><tr><th>Perfil</th><th>Pode simular</th><th>Pode aprovar</th><th>Pode editar regras</th></tr></thead>
+            <tbody>
+              <tr><td>Operador</td><td>Sim</td><td>Não</td><td>Não</td></tr>
+              <tr><td>Analista GEOPE</td><td>Sim</td><td>Sim</td><td>Não</td></tr>
+              <tr><td>Gestor</td><td>Sim</td><td>Sim</td><td>Sim</td></tr>
+              <tr><td>Administrador</td><td>Sim</td><td>Sim</td><td>Sim</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="card">
+          <h3>Fluxo de aprovação</h3>
+          <div class="alert-list">
+            <div class="alert"><strong>1. Simulação</strong><span class="muted">Cenário é criado e executado com parâmetros versionados.</span></div>
+            <div class="alert"><strong>2. Revisão técnica</strong><span class="muted">Analista valida coerência hidrológica, operacional e de risco.</span></div>
+            <div class="alert"><strong>3. Aprovação gerencial</strong><span class="muted">Decisão fica registrada com trilha de auditoria completa.</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>
 
 <script>
-const cv=document.getElementById('wc'),cx=cv.getContext('2d');
-let W,H,ws=[],ps=[];
-function rz(){W=cv.width=window.innerWidth;H=cv.height=window.innerHeight;}
-rz();window.addEventListener('resize',rz);
-for(let i=0;i<5;i++)ws.push({y:.2+i*.18,amp:30+i*14,freq:.0025+i*.0009,sp:.0007+i*.00025,ph:Math.random()*Math.PI*2,al:.08-i*.012});
-for(let i=0;i<55;i++)ps.push({x:Math.random()*W,y:Math.random()*H,r:Math.random()*2+.4,vx:(Math.random()-.5)*.25,vy:-Math.random()*.38-.08,al:Math.random()*.22+.04});
-function draw(){
-  cx.clearRect(0,0,W,H);
-  ws.forEach(w=>{
-    cx.beginPath();cx.moveTo(0,H*w.y);
-    for(let x=0;x<=W;x+=4){const y=H*w.y+Math.sin(x*w.freq+w.ph)*w.amp+Math.sin(x*w.freq*1.7+w.ph*.75)*(w.amp*.32);cx.lineTo(x,y);}
-    cx.lineTo(W,H);cx.lineTo(0,H);cx.closePath();
-    const g=cx.createLinearGradient(0,H*w.y-w.amp,0,H);
-    g.addColorStop(0,`rgba(41,182,246,${w.al})`);g.addColorStop(1,`rgba(13,61,99,${w.al*.25})`);
-    cx.fillStyle=g;cx.fill();w.ph+=w.sp;
-  });
-  ps.forEach(p=>{
-    cx.beginPath();cx.arc(p.x,p.y,p.r,0,Math.PI*2);
-    cx.fillStyle=`rgba(41,182,246,${p.al})`;cx.fill();
-    p.x+=p.vx;p.y+=p.vy;
-    if(p.y<-8){p.y=H+8;p.x=Math.random()*W;}
-    if(p.x<0)p.x=W;if(p.x>W)p.x=0;
-  });
-  requestAnimationFrame(draw);
-}
-draw();
+  const buttons = document.querySelectorAll('.menu button');
+  const screens = document.querySelectorAll('.screen');
+  buttons.forEach(btn => btn.addEventListener('click', () => {
+    buttons.forEach(b => b.classList.remove('active'));
+    screens.forEach(s => s.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById(btn.dataset.screen).classList.add('active');
+  }));
+
+  const runSim = document.getElementById('runSim');
+  if (runSim) {
+    runSim.addEventListener('click', () => {
+      runSim.textContent = 'Simulação concluída';
+      setTimeout(() => runSim.textContent = 'Executar simulação', 1800);
+    });
+  }
 </script>
 </body>
 </html>
